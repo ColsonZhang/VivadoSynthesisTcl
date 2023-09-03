@@ -1,5 +1,5 @@
-source "function.tcl"
-source "extract.tcl"
+source function.tcl
+source extract.tcl
 
 proc headinfo {log_file top_module text} {
     set thetime [currentDateTime]
@@ -158,14 +158,13 @@ proc generate_parameter {curr_scheme} {
     return $parameter_string
 }
 
-proc synthesize { top_module all_scheme 
+proc synthesize { top_module all_scheme repo_path
             {project_name "project_1" }
             {save_name "save-1"} {log_name "log-1"} 
             {synth_run "synth_1"} {xdc_name "Syn_100M"} 
             {rpt_enable { 1 1 0 0 }}
             {rpt_name { "uti-hier" "timing" "power" "clock" }}
 } {
-    set repo_path [get_absolute_path "../../"]
     set source_path "${repo_path}/source/"
     set output_path "${repo_path}/output/"
     set proj_path   "${repo_path}/vivado/"

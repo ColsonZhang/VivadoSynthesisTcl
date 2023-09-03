@@ -4,6 +4,10 @@ vivado/*
 output/*
 source/vsrc/**
 source/xdc/**
+**vivado.jou
+**vivado.log
+**vivado**.jou
+**vivado**.log
 
 !vivado/readme.txt
 !output/readme.txt
