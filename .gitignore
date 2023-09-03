@@ -1,0 +1,12 @@
+**.Xil
+
+vivado/*
+output/*
+source/vsrc/**
+source/xdc/**
+
+!vivado/readme.txt
+!output/readme.txt
+!source/readme.txt
+!source/vsrc/readme.txt
+!source/xdc/**.xdc
