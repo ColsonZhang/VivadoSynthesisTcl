@@ -150,15 +150,7 @@ proc get_rpt_path { rpt_name output_path top_module curr_scheme } {
     return $rpt_path
 }
 
-proc generate_parameter {curr_scheme} {
-    set exp [lindex $curr_scheme 0]
-    set man [lindex $curr_scheme 1]
-    set dw  [expr {$exp+$man}]
-    set parameter_string "DEW=$exp DFW=$man DW=$dw"
-    return $parameter_string
-}
-
-proc synthesize { top_module all_scheme repo_path
+proc synthesize { top_module all_scheme repo_path func_param
             {project_name "project_1" }
             {save_name "save-1"} {log_name "log-1"} 
             {synth_run "synth_1"} {xdc_name "Syn_100M"} 
@@ -195,7 +187,7 @@ proc synthesize { top_module all_scheme repo_path
         set curr_scheme [lindex $all_scheme $idx]
         dump_put_log $log_file "$synth_run: Begin to snthesize ${top_module} with scheme=${curr_scheme}."
 
-        set curr_param [generate_parameter $curr_scheme]
+        set curr_param [$func_param $curr_scheme]
         set syn_status [run_synthesis $curr_param $constrs_file $synth_run]
 
         if {$syn_status} {
