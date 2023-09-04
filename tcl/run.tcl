@@ -27,7 +27,7 @@ set project_path "${repo_path}/vivado/${project_name}"
 create_project_with_board $project_name $project_path $board_part
 
 # 综合设定
-set xdc_name "Syn_100M"
+set xdc_name "Syn_200M"
 set rpt_enable { 1 1 0 0 }
 set rpt_name { "uti-hier" "timing" "power" "clock" }
 set synth_run "synth_1"
@@ -43,7 +43,7 @@ proc func_param_float {curr_scheme} {
 
 # 设置综合参数
 # --------------------------------------------------
-set all_scheme { { 8 7 } { 8 15 } }
+set all_scheme { { 8 7 } }
 # --------------------------------------------------
 # set scheme_path "/P3PSSD/zhangshen/workspace/SPN/SPN/SPN_HDL/tools/xilinx/tcl/scheme_mul_float2.txt"
 # set all_scheme [read_scheme_mul_float $scheme_path]
@@ -62,14 +62,17 @@ set func_param func_param_float
 synthesize  $top_module $all_scheme $repo_path $func_param $project_name \
             $save_name $log_name $synth_run $xdc_name $rpt_enable $rpt_name
 
-set top_module "mul_float_regout_regin_nodsp"
-set func_param func_param_float
+# set top_module "mul_float_regout_regin_nodsp"
+# set func_param func_param_float
 
-synthesize  $top_module $all_scheme $repo_path $func_param $project_name \
-            $save_name $log_name $synth_run $xdc_name $rpt_enable $rpt_name
+# synthesize  $top_module $all_scheme $repo_path $func_param $project_name \
+#             $save_name $log_name $synth_run $xdc_name $rpt_enable $rpt_name
 
-set top_module "add_float_regout_regin"
-set func_param func_param_float
+# set top_module "add_float_regout_regin"
+# set func_param func_param_float
 
-synthesize  $top_module $all_scheme $repo_path $func_param $project_name \
-            $save_name $log_name $synth_run $xdc_name $rpt_enable $rpt_name
+# synthesize  $top_module $all_scheme $repo_path $func_param $project_name \
+#             $save_name $log_name $synth_run $xdc_name $rpt_enable $rpt_name
+
+# 退出vivado
+exit

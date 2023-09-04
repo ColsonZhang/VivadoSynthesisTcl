@@ -1,10 +1,9 @@
 source function.tcl
 source extract.tcl
 
-proc headinfo {log_file top_module text} {
+proc headinfo {log_file text} {
     set thetime [currentDateTime]
     write_file $log_file "-----------------\n${thetime}\n-----------------"
-    write_file $log_file "Top Module = ${top_module}"
     write_file $log_file $text
 }
 
@@ -142,10 +141,10 @@ proc get_syn_path { synth_run proj_path project_name } {
     return "${proj_path}/${project_name}/${project_name}.runs/${synth_run}/"
 }
 
-proc get_rpt_path { rpt_name output_path top_module curr_scheme } {
+proc get_rpt_path { rpt_name rpt_dir curr_scheme } {
     set rpt_path {}
     foreach item $rpt_name {
-        lappend rpt_path "${output_path}/report/${top_module}/${item}-${curr_scheme}.rpt"
+        lappend rpt_path "${rpt_dir}/${item}-${curr_scheme}.rpt"
     } 
     return $rpt_path
 }
@@ -161,16 +160,17 @@ proc synthesize { top_module all_scheme repo_path func_param
     set output_path "${repo_path}/output/"
     set proj_path   "${repo_path}/vivado/"
 
+    # 检查路径是否存在
+    checkAndCreatePath "${output_path}/log"
+    checkAndCreatePath "${output_path}/save"
+    checkAndCreatePath "${output_path}/report/${xdc_name}/${top_module}"
+
     set syn_path [get_syn_path $synth_run $proj_path $project_name]
+    set rpt_dir         "${output_path}/report/${xdc_name}/${top_module}"
     set src_path        "${source_path}/vsrc/"
     set constrs_file    "${source_path}/xdc/${xdc_name}.xdc"
     set save_file       "${output_path}/save/${save_name}.txt"
     set log_file        "${output_path}/log/${log_name}.txt"
-
-    # 检查路径是否存在
-    checkAndCreatePath "${output_path}/log"
-    checkAndCreatePath "${output_path}/save"
-    checkAndCreatePath "${output_path}/report/${top_module}"
 
     # vivado前期设定
     update_source_from_dir $src_path
@@ -178,8 +178,9 @@ proc synthesize { top_module all_scheme repo_path func_param
     set_top_module $top_module
 
     # 打印log头信息
-    headinfo $log_file  $top_module "Scheme\tUtilization\tPower" 
-    headinfo $save_file $top_module "Scheme\tUtilization\tPower" 
+    set headtext "Top Module = ${top_module}\nXDC-File = ${xdc_name}\nScheme\tUtilization\tPower"
+    headinfo $log_file  $headtext 
+    headinfo $save_file $headtext
 
     # 进行batch-run
     set batch_len [llength $all_scheme]
@@ -191,7 +192,7 @@ proc synthesize { top_module all_scheme repo_path func_param
         set syn_status [run_synthesis $curr_param $constrs_file $synth_run]
 
         if {$syn_status} {
-            set rpt_path [get_rpt_path $rpt_name $output_path $top_module $curr_scheme]
+            set rpt_path [get_rpt_path $rpt_name $rpt_dir $curr_scheme]
             dump_put_log $log_file "$synth_run: SUCCESS to snthesize ${top_module} with scheme=${curr_scheme}."
             dump_put_log $log_file "$synth_run: Begin to get the report of ${top_module} with scheme=${curr_scheme}."
             set syn_result [get_and_read_report $synth_run $rpt_enable $rpt_path ]
