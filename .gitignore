@@ -4,6 +4,7 @@ vivado/*
 output/*
 source/vsrc/**
 source/xdc/**
+source/param/**
 **vivado.jou
 **vivado.log
 **vivado**.jou
