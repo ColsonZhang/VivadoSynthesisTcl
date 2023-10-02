@@ -17,3 +17,5 @@ source/param/**
 !source/xdc/**.xdc
 
 tcl/test/**
+
+*.ipynb
