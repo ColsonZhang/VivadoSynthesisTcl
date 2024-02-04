@@ -16,6 +16,11 @@ source/param/**
 !source/vsrc/readme.txt
 !source/xdc/**.xdc
 
+!source/vsrc/posit_mult_nodsp.v
+!source/vsrc/posit_add_nodsp.v
+!source/vsrc/posit_mult.v
+!source/vsrc/posit_add.v
+
 tcl/test/**
 
 *.ipynb
